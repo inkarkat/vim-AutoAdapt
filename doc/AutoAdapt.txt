@@ -1,0 +1,90 @@
+*AutoAdapt.txt*         Automatically adapt timestamps, copyright notices, etc.
+
+			 AUTO ADAPT    by Ingo Karkat
+							       *AutoAdapt.vim*
+description			|AutoAdapt-description|
+usage				|AutoAdapt-usage|
+installation			|AutoAdapt-installation|
+configuration			|AutoAdapt-configuration|
+integration			|AutoAdapt-integration|
+limitations			|AutoAdapt-limitations|
+known problems			|AutoAdapt-known-problems|
+todo				|AutoAdapt-todo|
+history				|AutoAdapt-history|
+
+==============================================================================
+DESCRIPTION					       *AutoAdapt-description*
+
+This plugin ...
+
+HOW IT WORKS								     *
+
+SOURCE									     *
+
+- The regular expression for updating copyright notices is derived from
+    http://vim.wikia.com/wiki/Automatically_Update_Copyright_Notice_in_Files
+
+SEE ALSO								     *
+(Plugins offering complementary functionality, or plugins using this library.)
+
+RELATED WORKS								     *
+(Alternatives from other authors, other approaches, references not used here.)
+
+==============================================================================
+USAGE							     *AutoAdapt-usage*
+							  *:AutoAdapt*
+:AutoAdapt	Description here.
+
+EXAMPLE							   *AutoAdapt-example*
+
+==============================================================================
+INSTALLATION					      *AutoAdapt-installation*
+
+This script is packaged as a |vimball|. If you have the "gunzip" decompressor
+in your PATH, simply edit the *.vmb.gz package in Vim; otherwise, decompress
+the archive first, e.g. using WinZip. Inside Vim, install by sourcing the
+vimball or via the |:UseVimball| command. >
+    vim AutoAdapt*.vmb.gz
+    :so %
+To uninstall, use the |:RmVimball| command.
+
+DEPENDENCIES					      *AutoAdapt-dependencies*
+
+- Requires Vim 7.0 or higher.
+
+==============================================================================
+CONFIGURATION					     *AutoAdapt-configuration*
+
+For a permanent configuration, put the following commands into your |vimrc|:
+configvar
+							     *AutoAdapt-remap*
+plugmap
+
+==============================================================================
+INTEGRATION					       *AutoAdapt-integration*
+
+==============================================================================
+LIMITATIONS					       *AutoAdapt-limitations*
+
+KNOWN PROBLEMS					    *AutoAdapt-known-problems*
+
+TODO							      *AutoAdapt-todo*
+
+IDEAS							     *AutoAdapt-ideas*
+
+==============================================================================
+HISTORY							   *AutoAdapt-history*
+
+GOAL
+First published version.
+
+0.01	01-Jul-2013
+Started development.
+
+==============================================================================
+Copyright: (C) 2013 Ingo Karkat
+The VIM LICENSE applies to this plugin; see |copyright|.
+
+Maintainer:	Ingo Karkat <ingo@karkat.de>
+==============================================================================
+ vim:tw=78:ts=8:ft=help:norl:
