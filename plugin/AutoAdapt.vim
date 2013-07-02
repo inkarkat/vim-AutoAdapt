@@ -16,6 +16,7 @@
 "	003	03-Jul-2013	Avoid modifying Last Changed lines with the
 "				current date. Use new "patternexpr" attribute
 "				to avoid a match (/\@!/) with the current date.
+"				Allow disabling via :NoAutoAdapt command.
 "	002	02-Jul-2013	Extend default rules for common formats seen in
 "				$VIMRUNTIME/syntax/*.vim.
 "	001	01-Jul-2013	file creation
@@ -67,6 +68,11 @@ if ! exists('g:AutoAdapt_Rules')
     \   },
     \]
 endif
+
+
+"- commands --------------------------------------------------------------------
+
+command! -bar NoAutoAdapt let b:AutoAdapt = 0
 
 
 "- autocmds --------------------------------------------------------------------
