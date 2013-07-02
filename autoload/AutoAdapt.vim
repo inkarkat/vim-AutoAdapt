@@ -1,6 +1,7 @@
 " AutoAdapt.vim: Automatically adapt timestamps, copyright notices, etc.
 "
 " DEPENDENCIES:
+"   - ingo/actions.vim autoload script
 "   - ingo/err.vim autoload script
 "
 " Copyright: (C) 2013 Ingo Karkat
@@ -9,6 +10,7 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"	003	03-Jul-2013	Add rule.patternexpr configuration attribute.
 "	002	02-Jul-2013	Add rule.range configuration and default to
 "				'modelines' line offset from start and end.
 "	001	01-Jul-2013	file creation
@@ -42,6 +44,10 @@ function! AutoAdapt#Trigger( rules )
     let l:save_view = winsaveview()
     for l:rule in a:rules
 	try
+	    if has_key(l:rule, 'patternexpr')
+		let l:rule.pattern = ingo#actions#EvaluateOrFunc(l:rule.patternexpr, [l:rule])
+	    endif
+
 	    let l:sep = get(l:rule, 'substitutionSeparator', '/')
 	    for l:range in s:GetRanges(l:rule)
 		silent execute printf('keepjumps %ssubstitute%s%s%s%s%sge',
