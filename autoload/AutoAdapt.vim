@@ -11,6 +11,7 @@
 "
 " REVISION	DATE		REMARKS
 "	003	03-Jul-2013	Add rule.patternexpr configuration attribute.
+"				Allow disabling via b:AutoAdapt flag.
 "	002	02-Jul-2013	Add rule.range configuration and default to
 "				'modelines' line offset from start and end.
 "	001	01-Jul-2013	file creation
@@ -36,7 +37,7 @@ function! s:GetRanges( rule )
     endif
 endfunction
 function! AutoAdapt#Trigger( rules )
-    if empty(a:rules) || ! &l:modifiable
+    if empty(a:rules) || ! &l:modifiable || exists('b:AutoAdapt') && ! b:AutoAdapt
 	return
     endif
 
