@@ -56,9 +56,34 @@ DEPENDENCIES					      *AutoAdapt-dependencies*
 CONFIGURATION					     *AutoAdapt-configuration*
 
 For a permanent configuration, put the following commands into your |vimrc|:
-configvar
-							     *AutoAdapt-remap*
-plugmap
+				       *b:AutoAdapt_Rules* *g:AutoAdapt_Rules*
+The plugin uses a list of rules to adapt the buffer contents on each save. You
+can add your own rules, or completely replace the default rules. Rules can
+also be overridden for individual buffers with a buffer-local variable. The
+rules consist of a |List| of Rule objects: >
+    let g:AutoAdapt_Rules = [
+    \   {
+    \       'pattern': '\c\<Copyright:\?\d\{4}\>',
+    \       'replacement': strftime('%Y'),
+    \	    'range': 'modelines'
+    \   },
+    \	{ ... }
+    \]
+<
+pattern			the |regular-expression| as used in a |:substitute|
+			command (with the separator character /, or
+			rule.substitutionSeparator)
+replacement		the replacement; you can use text or
+			|sub-replace-special|
+range			the (optional) range to which parts of the buffer the
+			rule will be applied. It defaults to "modelines",
+			which considers the 'modelines' number of lines at
+			both the start and end of the buffer. You can also use
+			"%" for the entire buffer, or use numbered ranges
+			"11,42".
+substitutionSeparator	The separator in the |:substitute|. Change from the
+			default "/" to another non-alphanumeric single-byte
+			character when the default is cumbersome. |E146|
 
 ==============================================================================
 INTEGRATION					       *AutoAdapt-integration*
