@@ -2,7 +2,9 @@
 "
 " DEPENDENCIES:
 "   - ingo/actions.vim autoload script
+"   - ingo/collection/unique.vim autoload script
 "   - ingo/err.vim autoload script
+"   - ingo/plugin/setting.vim autoload script
 "
 " Copyright: (C) 2013 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
@@ -12,33 +14,44 @@
 " REVISION	DATE		REMARKS
 "	003	03-Jul-2013	Add rule.patternexpr configuration attribute.
 "				Allow disabling via b:AutoAdapt flag.
+"				Switch default range to the config variables.
+"				Avoid that the same substitution error is added
+"				multiple times.
 "	002	02-Jul-2013	Add rule.range configuration and default to
 "				'modelines' line offset from start and end.
 "	001	01-Jul-2013	file creation
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! s:StartAndEndRange( offset )
-    let l:lastStartLnum = min([line('$'), a:offset])
-    let l:firstEndLnum = max([1, line('$') - a:offset + 1])
-    let l:firstEndLnum = max([l:lastStartLnum + 1, l:firstEndLnum])
+function! s:StartAndEndRange( startOffset, endOffset )
+    let l:ranges = []
+    let l:lastStartLnum = min([line('$'), a:startOffset])
+    if a:startOffset > 0
+	call add(l:ranges, '1,' . l:lastStartLnum)
+    endif
 
-    let l:ranges = ['1,' . l:lastStartLnum]
+    let l:firstEndLnum = max([1, line('$') - a:endOffset + 1])
+    let l:firstEndLnum = max([l:lastStartLnum + 1, l:firstEndLnum])
     if l:firstEndLnum <= line('$')
 	call add(l:ranges, l:firstEndLnum . ',$')
     endif
     return l:ranges
 endfunction
 function! s:GetRanges( rule )
-    if get(a:rule, 'range', 'modelines') ==# 'modelines'
-	return s:StartAndEndRange(&modelines)
+    if empty(get(a:rule, 'range', ''))
+	return s:StartAndEndRange(
+	\   ingo#plugin#setting#GetBufferLocal('AutoAdapt_FirstLines'),
+	\   ingo#plugin#setting#GetBufferLocal('AutoAdapt_LastLines')
+	\)
+    elseif a:rule.range ==# 'modelines'
+	return s:StartAndEndRange(&modelines, &modelines)
     else
 	return [a:rule.range]
     endif
 endfunction
 function! AutoAdapt#Trigger( rules )
     if empty(a:rules) || ! &l:modifiable || exists('b:AutoAdapt') && ! b:AutoAdapt
-	return
+	return 1
     endif
 
     let l:errors = []
@@ -61,9 +74,9 @@ function! AutoAdapt#Trigger( rules )
 		\)
 	    endfor
 	catch /^Vim\%((\a\+)\)\=:E/
-	    call add(l:errors, ingo#msg#MsgFromVimException())
+	    call ingo#collections#unique#AddNew(l:errors, ingo#msg#MsgFromVimException())
 	catch
-	    call add(l:errors, v:exception)
+	    call ingo#collections#unique#AddNew(l:errors, v:exception)
 	endtry
     endfor
     call winrestview(l:save_view)
