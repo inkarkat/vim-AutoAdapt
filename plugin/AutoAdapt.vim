@@ -69,6 +69,13 @@ if ! exists('g:AutoAdapt_Rules')
     \]
 endif
 
+if ! exists('g:AutoAdapt_FirstLines')
+    let g:AutoAdapt_FirstLines = 25
+endif
+if ! exists('g:AutoAdapt_LastLines')
+    let g:AutoAdapt_LastLines = 5
+endif
+
 
 "- commands --------------------------------------------------------------------
 
