@@ -56,12 +56,14 @@ function! AutoAdapt#Trigger( rules )
 
     let l:errors = []
     let l:save_view = winsaveview()
+    let l:applicableRules = []
     for l:rule in a:rules
 	try
 	    if has_key(l:rule, 'patternexpr')
 		let l:rule.pattern = ingo#actions#EvaluateOrFunc(l:rule.patternexpr, [l:rule])
 	    endif
 
+	    let l:previousChangedtick = b:changedtick
 	    let l:sep = get(l:rule, 'substitutionSeparator', '/')
 	    for l:range in s:GetRanges(l:rule)
 		silent execute printf('keepjumps %ssubstitute%s%s%s%s%sge',
@@ -73,6 +75,9 @@ function! AutoAdapt#Trigger( rules )
 		\   l:sep
 		\)
 	    endfor
+	    if b:changedtick > l:previousChangedtick
+		call add(l:applicableRules, get(l:rule, 'name', l:rule.pattern))
+	    endif
 	catch /^Vim\%((\a\+)\)\=:E/
 	    call ingo#collections#unique#AddNew(l:errors, ingo#msg#MsgFromVimException())
 	catch
@@ -80,6 +85,13 @@ function! AutoAdapt#Trigger( rules )
 	endtry
     endfor
     call winrestview(l:save_view)
+
+    if len(l:applicableRules) > 0
+	" Indicate that the contents were indeed adapted.
+	let b:AutoAdapt = len(l:applicableRules)
+    else
+	unlet! b:AutoAdapt
+    endif
 
     if len(l:errors) > 0
 	call ingo#err#Set(join(l:errors, "\n"))
