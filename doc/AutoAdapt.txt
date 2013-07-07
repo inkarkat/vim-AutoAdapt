@@ -65,6 +65,7 @@ also be overridden for individual buffers with a buffer-local variable. The
 rules consist of a |List| of Rule objects: >
     let g:AutoAdapt_Rules = [
     \   {
+    \       'name': 'Copyright notice',
     \       'pattern': '\c\<Copyright:\?\d\{4}\>',
     \       'replacement': strftime('%Y'),
     \	    'range': 'modelines'
@@ -72,6 +73,7 @@ rules consist of a |List| of Rule objects: >
     \	{ ... }
     \]
 <
+name			an optional, human-readable description of the rule
 pattern			the |regular-expression| as used in a |:substitute|
 			command (with the separator character /, or
 			rule.substitutionSeparator)
@@ -102,7 +104,7 @@ default: >
 <			       *b:AutoAdapt_LastLines* *g:AutoAdapt_LastLines*
 The number of lines at the end of the buffer when the rules are applied by
 default: >
-    let g:AutoAdapt_LastLines = 5
+    let g:AutoAdapt_LastLines = 10
 The reasoning for a larger "first lines" value is that there may be more
 boilerplate code at the file's header. (Also for this reason, the 'modelines'
 value is not used by default.)
