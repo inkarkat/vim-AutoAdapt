@@ -15,27 +15,44 @@ history				|AutoAdapt-history|
 ==============================================================================
 DESCRIPTION					       *AutoAdapt-description*
 
-This plugin ...
+This plugin automatically adapts information like "last modified" timestamps
+and copyright notices, or applies any other substitution before each file
+save. Where and what is replaced can be configured globally and for each
+individual buffer.
 
-HOW IT WORKS								     *
+The plugin ships with default configuration that handles the most common
+copyright notices, e.g.:
+    Copyright: (C) 2011-2013 Ingo Karkat ~
+and modification timestamps such as
+    Last Change: Mon 08 Jul 2013 09:36:03 CET ~
+    Modified: 2013 Jul 08 ~
 
 SOURCE									     *
 
 - The regular expression for updating copyright notices is derived from
     http://vim.wikia.com/wiki/Automatically_Update_Copyright_Notice_in_Files
 
-SEE ALSO								     *
-(Plugins offering complementary functionality, or plugins using this library.)
-
 RELATED WORKS								     *
-(Alternatives from other authors, other approaches, references not used here.)
+
+- ferallastchange.vim (vimscript #680) is an old plugin that searches for a
+  prefix and then updates the timestamp in a certain format.
+- timstamp.vim (vimscript #371) takes pattern and replacement parts like this
+  plugin (the replacement part also supports some custom tokens e.g. for
+  hostname), and is functionally very close.
+- timestamp.vim (vimscript #923) is based on timstamp.vim. It allows only one
+  pattern and feeds the replacement part to strftime(), making it less
+  general.
+- lastmod.vim (vimscript #3578) is a short and simple plugin for replacing one
+  pattern with a timestamp in the first N lines.
 
 ==============================================================================
 USAGE							     *AutoAdapt-usage*
+
+The adaptation happens before every buffer save (|BufWritePre| event), e.g.
+with the |:write| command. No action required. You can configure
+(|g:AutoAdapt_Rules|) and disable this, though:
 								*:NoAutoAdapt*
 :NoAutoAdapt		Turn off automatic adapting for the current buffer.
-
-EXAMPLE							   *AutoAdapt-example*
 
 ==============================================================================
 INSTALLATION					      *AutoAdapt-installation*
@@ -73,21 +90,21 @@ rules consist of a |List| of Rule objects: >
     \	{ ... }
     \]
 <
-name			an optional, human-readable description of the rule
-pattern			the |regular-expression| as used in a |:substitute|
+name			An optional, human-readable description of the rule.
+pattern			The |regular-expression| as used in a |:substitute|
 			command (with the separator character /, or
-			rule.substitutionSeparator)
-patternexpr		a Funcref (that takes the entire current rule object)
+			substitutionSeparator).
+patternexpr		A Funcref (that takes the entire current rule object)
 			or a String that is |eval()|ed to yield the pattern.
 			Updates the pattern attribute on each run. You can use
 			this to e.g. get the current date (via |strftime()|,
 			to avoid a match of the current date with |/@!|) into
 			the pattern.
-replacement		the replacement; you can use text or
-			|sub-replace-special|
-range			the (optional) range to which parts of the buffer the
-			rule will be applied. It defaults to "", which uses
-			the |g:AutoAdapt_FirstLines| and
+replacement		The replacement; you can use text or
+			|sub-replace-special|.
+range			The (optional) range to which parts of the buffer the
+			rule will be applied. It defaults to the empty string
+			"", which uses the |g:AutoAdapt_FirstLines| and
 			|g:AutoAdapt_LastLines| variables. Alternatives are:
 			"modelines", which considers the 'modelines' number of
 			lines at both the start and end of the buffer.
@@ -96,6 +113,7 @@ range			the (optional) range to which parts of the buffer the
 substitutionSeparator	The separator in the |:substitute|. Change from the
 			default "/" to another non-alphanumeric single-byte
 			character when the default is cumbersome. |E146|
+
 
 			     *b:AutoAdapt_FirstLines* *g:AutoAdapt_FirstLines*
 The number of lines at the start of the buffer when the rules are applied by
@@ -113,6 +131,11 @@ buffer-scoped variable.
 
 ==============================================================================
 INTEGRATION					       *AutoAdapt-integration*
+
+After each write, the plugin sets the variable |b:AutoAdapt| to the number of
+rules that have been applied. If no rule was applied, the variable is removed.
+The |:NoAutoAdapt| sets the variable to 0 to indicate that the plugin is
+disabled for that buffer.
 
 ==============================================================================
 LIMITATIONS					       *AutoAdapt-limitations*
