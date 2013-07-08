@@ -12,6 +12,7 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"	004	08-Jul-2013	Don't clobber the search history.
 "	003	03-Jul-2013	Add rule.patternexpr configuration attribute.
 "				Allow disabling via b:AutoAdapt flag.
 "				Switch default range to the config variables.
@@ -57,6 +58,7 @@ function! AutoAdapt#Trigger( rules )
     let l:errors = []
     let l:save_view = winsaveview()
     let l:applicableRules = []
+    let l:didSubstitute = 0
     for l:rule in a:rules
 	try
 	    if has_key(l:rule, 'patternexpr')
@@ -74,6 +76,7 @@ function! AutoAdapt#Trigger( rules )
 		\   l:rule.replacement,
 		\   l:sep
 		\)
+		let l:didSubstitute = 1
 	    endfor
 	    if b:changedtick > l:previousChangedtick
 		call add(l:applicableRules, get(l:rule, 'name', l:rule.pattern))
@@ -84,7 +87,10 @@ function! AutoAdapt#Trigger( rules )
 	    call ingo#collections#unique#AddNew(l:errors, v:exception)
 	endtry
     endfor
-    call winrestview(l:save_view)
+    if l:didSubstitute
+	call winrestview(l:save_view)
+	call histdel('search', -1)
+    endif
 
     if len(l:applicableRules) > 0
 	" Indicate that the contents were indeed adapted.
