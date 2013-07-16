@@ -20,7 +20,7 @@ and copyright notices, or applies any other substitution before each file
 save. Where and what is replaced can be configured globally and for each
 individual buffer.
 
-The plugin ships with default configuration that handles the most common
+The plugin ships with configuration defaults which handle the most common
 copyright notices, e.g.:
     Copyright: (C) 2011-2013 Ingo Karkat ~
 and modification timestamps such as
@@ -75,6 +75,22 @@ DEPENDENCIES					      *AutoAdapt-dependencies*
 CONFIGURATION					     *AutoAdapt-configuration*
 
 For a permanent configuration, put the following commands into your |vimrc|:
+
+			     *b:AutoAdapt_FirstLines* *g:AutoAdapt_FirstLines*
+The number of lines at the start of the buffer when the rules are applied by
+default: >
+    let g:AutoAdapt_FirstLines = 25
+<			       *b:AutoAdapt_LastLines* *g:AutoAdapt_LastLines*
+The number of lines at the end of the buffer when the rules are applied by
+default: >
+    let g:AutoAdapt_LastLines = 10
+The reasoning for a larger "first lines" value is that there may be more
+boilerplate code at the file's header. (Also for this reason, the 'modelines'
+value is not used by default.)
+You can override both values for particular buffers / filetypes with the
+buffer-scoped variable.
+
+
 				       *b:AutoAdapt_Rules* *g:AutoAdapt_Rules*
 The plugin uses a list of rules to adapt the buffer contents on each save. You
 can add your own rules, or completely replace the default rules. Rules can
@@ -99,7 +115,8 @@ patternexpr		A Funcref (that takes the entire current rule object)
 			Updates the pattern attribute on each run. You can use
 			this to e.g. get the current date (via |strftime()|,
 			to avoid a match of the current date with |/@!|) into
-			the pattern.
+			the pattern. The Funcref can throw "AutoAdaptSkip" to
+			skip the application of this rule.
 replacement		The replacement; you can use text or
 			|sub-replace-special|.
 range			The (optional) range to which parts of the buffer the
@@ -113,21 +130,6 @@ range			The (optional) range to which parts of the buffer the
 substitutionSeparator	The separator in the |:substitute|. Change from the
 			default "/" to another non-alphanumeric single-byte
 			character when the default is cumbersome. |E146|
-
-
-			     *b:AutoAdapt_FirstLines* *g:AutoAdapt_FirstLines*
-The number of lines at the start of the buffer when the rules are applied by
-default: >
-    let g:AutoAdapt_FirstLines = 25
-<			       *b:AutoAdapt_LastLines* *g:AutoAdapt_LastLines*
-The number of lines at the end of the buffer when the rules are applied by
-default: >
-    let g:AutoAdapt_LastLines = 10
-The reasoning for a larger "first lines" value is that there may be more
-boilerplate code at the file's header. (Also for this reason, the 'modelines'
-value is not used by default.)
-You can override both values for particular buffers / filetypes with the
-buffer-scoped variable.
 
 ==============================================================================
 INTEGRATION					       *AutoAdapt-integration*
@@ -149,7 +151,7 @@ IDEAS							     *AutoAdapt-ideas*
 ==============================================================================
 HISTORY							   *AutoAdapt-history*
 
-GOAL
+1.00	09-Jul-2013
 First published version.
 
 0.01	01-Jul-2013
