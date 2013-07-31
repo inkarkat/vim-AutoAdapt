@@ -34,6 +34,8 @@ SOURCE									     *
 
 RELATED WORKS								     *
 
+- autodate.vim (vimscript #291) is an old plugin that can insert and update a
+  time stamp (between a prefix and postfix) in a certain format.
 - ferallastchange.vim (vimscript #680) is an old plugin that searches for a
   prefix and then updates the timestamp in a certain format.
 - timstamp.vim (vimscript #371) takes pattern and replacement parts like this
