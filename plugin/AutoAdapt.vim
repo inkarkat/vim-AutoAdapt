@@ -13,7 +13,7 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
-"	004	04-Jul-2013	Add rule.name descriptions.
+"   1.00.004	04-Jul-2013	Add rule.name descriptions.
 "	003	03-Jul-2013	Avoid modifying Last Changed lines with the
 "				current date. Use new "patternexpr" attribute
 "				to avoid a match (/\@!/) with the current date.
