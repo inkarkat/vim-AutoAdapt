@@ -44,8 +44,12 @@ RELATED WORKS								     *
 - timestamp.vim (vimscript #923) is based on timstamp.vim. It allows only one
   pattern and feeds the replacement part to strftime(), making it less
   general.
+- header.vim (vimscript #1142) insert or updates a header at the top, in a
+  rather primitive way, and limited to shell, Python, Perl, and Vim scripts.
 - lastmod.vim (vimscript #3578) is a short and simple plugin for replacing one
   pattern with a timestamp in the first N lines.
+- better-header.vim (vimscript #4676) can insert and update a header for
+  Python and shell scripts, and requires Python itself.
 
 ==============================================================================
 USAGE							     *AutoAdapt-usage*
