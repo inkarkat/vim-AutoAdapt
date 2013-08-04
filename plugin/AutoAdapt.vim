@@ -13,6 +13,13 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.10.005	05-Aug-2013	ENH: Allow to disable / limit automatic
+"				adaptation via g:AutoAdapt_FilePattern
+"				configuration.
+"				ENH: Add :AutoAdapt command to opt-in to
+"				automatic adaptation when it's either not
+"				enabled for the current buffer, or was turned
+"				off via :NoAutoAdapt.
 "   1.00.004	04-Jul-2013	Add rule.name descriptions.
 "	003	03-Jul-2013	Avoid modifying Last Changed lines with the
 "				current date. Use new "patternexpr" attribute
@@ -31,6 +38,10 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 "- configuration ---------------------------------------------------------------
+
+if ! exists('g:AutoAdapt_FilePattern')
+    let g:AutoAdapt_FilePattern = '*'
+endif
 
 let s:lastChangePattern = '\v\C%(<%(Last%(Changed?| [cC]hanged?| modified)|Modified)\s*:\s+)\zs'
 if ! exists('g:AutoAdapt_Rules')
@@ -88,14 +99,40 @@ endif
 
 "- commands --------------------------------------------------------------------
 
-command! -bar NoAutoAdapt let b:AutoAdapt = 0
+function! s:NoAutoAdapt()
+    if exists('#AutoAdapt#BufWritePre#<buffer>')
+	autocmd! AutoAdapt BufWritePre,FileWritePre <buffer>
+    else
+	let b:AutoAdapt = 0
+    endif
+endfunction
+command! -bar NoAutoAdapt call <SID>NoAutoAdapt()
+
+function! s:AutoAdapt()
+    if exists('b:AutoAdapt')
+	if ! b:AutoAdapt
+	    unlet b:AutoAdapt
+	endif
+    else
+	augroup AutoAdapt
+	    autocmd! BufWritePre,FileWritePre <buffer> if ! AutoAdapt#Trigger(ingo#plugin#setting#GetBufferLocal('AutoAdapt_Rules')) | call ingo#msg#ErrorMsg(ingo#err#Get()) | endif
+	augroup END
+	" Note: This will install the buffer-local autocmd in addition to the
+	" global one when using :AutoAdapt on a buffer where the global trigger
+	" is active (but no auto adapting took place yet, so b:AutoAdapt hasn't
+	" yet been set).
+    endif
+endfunction
+command! -bar AutoAdapt call <SID>AutoAdapt()
 
 
 "- autocmds --------------------------------------------------------------------
 
-augroup AutoAdapt
-    autocmd! BufWritePre,FileWritePre * if ! AutoAdapt#Trigger(ingo#plugin#setting#GetBufferLocal('AutoAdapt_Rules')) | call ingo#msg#ErrorMsg(ingo#err#Get()) | endif
-augroup END
+if ! empty(g:AutoAdapt_FilePattern)
+    augroup AutoAdapt
+	execute 'autocmd! BufWritePre,FileWritePre' g:AutoAdapt_FilePattern 'if ! AutoAdapt#Trigger(ingo#plugin#setting#GetBufferLocal("AutoAdapt_Rules")) | call ingo#msg#ErrorMsg(ingo#err#Get()) | endif'
+    augroup END
+endif
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
