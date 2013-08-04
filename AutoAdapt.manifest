@@ -1,0 +1,4 @@
+autoload/AutoAdapt.vim
+autoload/AutoAdapt/DateTimeFormat.vim
+plugin/AutoAdapt.vim
+doc/AutoAdapt.txt
