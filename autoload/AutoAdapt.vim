@@ -12,7 +12,9 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
-"	004	08-Jul-2013	Don't clobber the search history.
+"   1.01.005	09-Jul-2013	Enable patternexpr Funcref to skip the rule
+"				application by :throw AutoAdaptSkip.
+"   1.00.004	08-Jul-2013	Don't clobber the search history.
 "	003	03-Jul-2013	Add rule.patternexpr configuration attribute.
 "				Allow disabling via b:AutoAdapt flag.
 "				Switch default range to the config variables.
@@ -83,6 +85,8 @@ function! AutoAdapt#Trigger( rules )
 	    endif
 	catch /^Vim\%((\a\+)\)\=:E/
 	    call ingo#collections#unique#AddNew(l:errors, ingo#msg#MsgFromVimException())
+	catch /^AutoAdaptSkip/
+	    " The Funcref signals to have this rule skipped.
 	catch
 	    call ingo#collections#unique#AddNew(l:errors, v:exception)
 	endtry
