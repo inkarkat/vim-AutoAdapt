@@ -114,13 +114,27 @@ function! s:AutoAdapt()
 	    unlet b:AutoAdapt
 	endif
     else
-	augroup AutoAdapt
-	    autocmd! BufWritePre,FileWritePre <buffer> if ! AutoAdapt#Trigger(ingo#plugin#setting#GetBufferLocal('AutoAdapt_Rules')) | call ingo#msg#ErrorMsg(ingo#err#Get()) | endif
-	augroup END
-	" Note: This will install the buffer-local autocmd in addition to the
-	" global one when using :AutoAdapt on a buffer where the global trigger
-	" is active (but no auto adapting took place yet, so b:AutoAdapt hasn't
-	" yet been set).
+	" To avoid installing the buffer-local autocmd in addition to the global
+	" one when using :AutoAdapt on a buffer where the global trigger is
+	" active (but no auto adapting took place yet, so b:AutoAdapt hasn't yet
+	" been set), trigger our custom user event to check whether the global
+	" g:AutoAdapt_FilePattern applies, and only define the buffer-local
+	" autocmd if it doesn't.
+	if exists('#AutoAdapt#User')
+	    if v:version == 703 && has('patch438') || v:version > 703
+		doautocmd <nomodeline> AutoAdapt User
+	    else
+		doautocmd              AutoAdapt User
+	    endif
+	endif
+	if exists('b:AutoAdapt')
+	    " The global trigger covers this buffer.
+	    unlet b:AutoAdapt
+	else
+	    augroup AutoAdapt
+		autocmd! BufWritePre,FileWritePre <buffer> if ! AutoAdapt#Trigger(ingo#plugin#setting#GetBufferLocal('AutoAdapt_Rules')) | call ingo#msg#ErrorMsg(ingo#err#Get()) | endif
+	    augroup END
+	endif
     endif
 endfunction
 command! -bar AutoAdapt call <SID>AutoAdapt()
@@ -130,7 +144,9 @@ command! -bar AutoAdapt call <SID>AutoAdapt()
 
 if ! empty(g:AutoAdapt_FilePattern)
     augroup AutoAdapt
-	execute 'autocmd! BufWritePre,FileWritePre' g:AutoAdapt_FilePattern 'if ! AutoAdapt#Trigger(ingo#plugin#setting#GetBufferLocal("AutoAdapt_Rules")) | call ingo#msg#ErrorMsg(ingo#err#Get()) | endif'
+	autocmd!
+	execute 'autocmd BufWritePre,FileWritePre' g:AutoAdapt_FilePattern 'if ! AutoAdapt#Trigger(ingo#plugin#setting#GetBufferLocal("AutoAdapt_Rules")) | call ingo#msg#ErrorMsg(ingo#err#Get()) | endif'
+	execute 'autocmd User' g:AutoAdapt_FilePattern 'let b:AutoAdapt = -1'
     augroup END
 endif
 
