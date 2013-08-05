@@ -59,6 +59,12 @@ with the |:write| command. No action required. You can configure
 (|g:AutoAdapt_Rules|) and disable this, though:
 								*:NoAutoAdapt*
 :NoAutoAdapt		Turn off automatic adapting for the current buffer.
+								  *:AutoAdapt*
+:AutoAdapt		Turn on automatic adapting for the current buffer,
+			either after having it turned off via|:NoAutoAdapt|,
+			or to enable adapting for a buffer when the automatic
+			adapting has been turned for via
+			|g:AutoAdapt_FilePattern|.
 
 ==============================================================================
 INSTALLATION					      *AutoAdapt-installation*
@@ -81,6 +87,16 @@ DEPENDENCIES					      *AutoAdapt-dependencies*
 CONFIGURATION					     *AutoAdapt-configuration*
 
 For a permanent configuration, put the following commands into your |vimrc|:
+
+			*g:AutoAdapt_FilePattern*
+If you want to apply the adaptation only to certain files, you can specify
+|autocmd-patterns| instead of the default "*". This must be set before the
+plugin is sourced: >
+    let g:AutoAdapt_FilePattern = '*.h,*.c,*.cpp'
+Alternatively, if you want to opt-in for certain files only instead of opting
+out via |:NoAutoAdapt|, completely disable the automatic adaptation through >
+    let g:AutoAdapt_FilePattern = ''
+and use |:AutoAdapt|, e.g. in combination with a local vimrc plugin.
 
 			     *b:AutoAdapt_FirstLines* *g:AutoAdapt_FirstLines*
 The number of lines at the start of the buffer when the rules are applied by
@@ -145,6 +161,17 @@ rules that have been applied. If no rule was applied, the variable is removed.
 The |:NoAutoAdapt| sets the variable to 0 to indicate that the plugin is
 disabled for that buffer.
 
+						     *AutoAdapt#Info#Status()*
+If you want to indicate (e.g. in your 'statusline') whether automatic adapting
+took place or whether you've manually overridden the automation, you can use
+the AutoAdapt#Info#Status() function, which returns:
+    "adapted"	when adaptation took place
+    "noadapt"	when automatic adaptation is enabled, but was turned off via
+		|:NoAutoAdapt| for this buffer
+    "adapt"	when automatic adaptation is disabled, but was turned on via
+		|:AutoAdapt| for this buffer
+    ""		in all other situations
+
 ==============================================================================
 LIMITATIONS					       *AutoAdapt-limitations*
 
@@ -156,6 +183,14 @@ IDEAS							     *AutoAdapt-ideas*
 
 ==============================================================================
 HISTORY							   *AutoAdapt-history*
+
+1.10	RELEASEME
+- ENH: Allow to disable / limit automatic adaptation via
+  g:AutoAdapt_FilePattern configuration.
+- ENH: Add :AutoAdapt command to opt-in to automatic adaptation when it's
+  either not enabled for the current buffer, or was turned off via
+  :NoAutoAdapt.
+- ENH: Add AutoAdapt#Info#Status() function for use in a custom 'statusline'.
 
 1.00	09-Jul-2013
 First published version.
