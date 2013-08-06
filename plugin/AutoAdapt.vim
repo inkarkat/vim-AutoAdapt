@@ -13,6 +13,7 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.10.006	06-Aug-2013	Pass filespec to AutoAdapt#Trigger().
 "   1.10.005	05-Aug-2013	ENH: Allow to disable / limit automatic
 "				adaptation via g:AutoAdapt_FilePattern
 "				configuration.
@@ -132,7 +133,7 @@ function! s:AutoAdapt()
 	    unlet b:AutoAdapt
 	else
 	    augroup AutoAdapt
-		autocmd! BufWritePre,FileWritePre <buffer> if ! AutoAdapt#Trigger(ingo#plugin#setting#GetBufferLocal('AutoAdapt_Rules')) | call ingo#msg#ErrorMsg(ingo#err#Get()) | endif
+		autocmd! BufWritePre,FileWritePre <buffer> if ! AutoAdapt#Trigger(expand('<afile>'), ingo#plugin#setting#GetBufferLocal('AutoAdapt_Rules')) | call ingo#msg#ErrorMsg(ingo#err#Get()) | endif
 	    augroup END
 	endif
     endif
@@ -145,7 +146,7 @@ command! -bar AutoAdapt call <SID>AutoAdapt()
 if ! empty(g:AutoAdapt_FilePattern)
     augroup AutoAdapt
 	autocmd!
-	execute 'autocmd BufWritePre,FileWritePre' g:AutoAdapt_FilePattern 'if ! AutoAdapt#Trigger(ingo#plugin#setting#GetBufferLocal("AutoAdapt_Rules")) | call ingo#msg#ErrorMsg(ingo#err#Get()) | endif'
+	execute 'autocmd BufWritePre,FileWritePre' g:AutoAdapt_FilePattern 'if ! AutoAdapt#Trigger(expand("<afile>"), ingo#plugin#setting#GetBufferLocal("AutoAdapt_Rules")) | call ingo#msg#ErrorMsg(ingo#err#Get()) | endif'
 	execute 'autocmd User' g:AutoAdapt_FilePattern 'let b:AutoAdapt = -1'
     augroup END
 endif
