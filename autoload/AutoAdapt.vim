@@ -12,6 +12,9 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.10.006	06-Aug-2013	Pass filespec to AutoAdapt#Trigger().
+"				ENH: Allow to skip adaptation with
+"				g:AutoAdapt_Predicate.
 "   1.01.005	09-Jul-2013	Enable patternexpr Funcref to skip the rule
 "				application by :throw AutoAdaptSkip.
 "   1.00.004	08-Jul-2013	Don't clobber the search history.
@@ -52,9 +55,20 @@ function! s:GetRanges( rule )
 	return [a:rule.range]
     endif
 endfunction
-function! AutoAdapt#Trigger( rules )
+function! AutoAdapt#Trigger( filespec, rules )
     if empty(a:rules) || ! &l:modifiable || exists('b:AutoAdapt') && ! b:AutoAdapt
 	return 1
+    endif
+    let l:Predicate = ingo#plugin#setting#GetBufferLocal('AutoAdapt_Predicate', '')
+    if ! empty(l:Predicate)
+	try
+	    if ! call(l:Predicate, [a:filespec])
+		return 1
+	    endif
+	catch /^Vim\%((\a\+)\)\=:/
+	    call ingo#err#SetVimException()
+	    return 0
+	endtry
     endif
 
     let l:errors = []
