@@ -88,7 +88,7 @@ CONFIGURATION					     *AutoAdapt-configuration*
 
 For a permanent configuration, put the following commands into your |vimrc|:
 
-			*g:AutoAdapt_FilePattern*
+						     *g:AutoAdapt_FilePattern*
 If you want to apply the adaptation only to certain files, you can specify
 |autocmd-patterns| instead of the default "*". This must be set before the
 plugin is sourced: >
@@ -153,6 +153,15 @@ substitutionSeparator	The separator in the |:substitute|. Change from the
 			default "/" to another non-alphanumeric single-byte
 			character when the default is cumbersome. |E146|
 
+			       *b:AutoAdapt_Predicate* *g:AutoAdapt_Predicate*
+To skip the automatic adaptation for certain files, in addition to
+|g:AutoAdapt_FilePattern| and |:NoAutoAdapt|, you can also configure a Funcref
+(if that is more convenient) that is passed the current file's filespec, and
+should return a Boolean value whether it should be adapted. For example, if
+you have the |writebackupVersionControl.vim| plugin (vimscript #1829)
+installed, you can skip adapting backups via: >
+    let g:AutoAdapt_Predicate = function('writebackupVersionControl#IsOriginalFile')
+<
 ==============================================================================
 INTEGRATION					       *AutoAdapt-integration*
 
@@ -191,6 +200,7 @@ HISTORY							   *AutoAdapt-history*
   either not enabled for the current buffer, or was turned off via
   :NoAutoAdapt.
 - ENH: Add AutoAdapt#Info#Status() function for use in a custom 'statusline'.
+- ENH: Allow to skip adaptation with g:AutoAdapt_Predicate.
 
 1.00	09-Jul-2013
 First published version.
