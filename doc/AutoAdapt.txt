@@ -60,11 +60,18 @@ with the |:write| command. No action required. You can configure
 								*:NoAutoAdapt*
 :NoAutoAdapt		Turn off automatic adapting for the current buffer.
 								  *:AutoAdapt*
-:AutoAdapt		Turn on automatic adapting for the current buffer,
-			either after having it turned off via|:NoAutoAdapt|,
-			or to enable adapting for a buffer when the automatic
-			adapting has been turned for via
-			|g:AutoAdapt_FilePattern|.
+:AutoAdapt[!]		Turn on automatic adapting for the current buffer,
+			after having it turned off via|:NoAutoAdapt|, or to
+			enable adapting for a buffer when the automatic
+			adapting has been configured to exclude the current
+			buffer via |g:AutoAdapt_FilePattern|, or (with [!]) to
+			override a configured Predicate which disables
+			adaptation for the buffer.
+								      *:Adapt*
+:Adapt[!]		Trigger manual adaptation of the current buffer (when
+			automatic adaption has been turned off via
+			|:NoAutoAdapt|). With [!] also overrides a configured
+			Predicate which disables adaptation for the buffer.
 
 ==============================================================================
 INSTALLATION					      *AutoAdapt-installation*
@@ -201,6 +208,8 @@ HISTORY							   *AutoAdapt-history*
   :NoAutoAdapt.
 - ENH: Add AutoAdapt#Info#Status() function for use in a custom 'statusline'.
 - ENH: Allow to skip adaptation with g:AutoAdapt_Predicate.
+- ENH: Implement :Adapt command to manually trigger the adaptation (or
+  override a configured predicate disallowing it).
 
 1.00	09-Jul-2013
 First published version.
