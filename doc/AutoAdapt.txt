@@ -120,7 +120,7 @@ You can override both values for particular buffers / filetypes with the
 buffer-scoped variable.
 
 
-				       *b:AutoAdapt_Rules* *g:AutoAdapt_Rules*
+		     *AutoAdapt-rules* *b:AutoAdapt_Rules* *g:AutoAdapt_Rules*
 The plugin uses a list of rules to adapt the buffer contents on each save. You
 can add your own rules, or completely replace the default rules. Rules can
 also be overridden for individual buffers with a buffer-local variable. The
