@@ -50,6 +50,8 @@ RELATED WORKS								     *
   pattern with a timestamp in the first N lines.
 - better-header.vim (vimscript #4676) can insert and update a header for
   Python and shell scripts, and requires Python itself.
+- update-time (vimscript #4786) searches the first and last lines for a single
+  prefix and then automatically updates a following timestamp.
 
 ==============================================================================
 USAGE							     *AutoAdapt-usage*
