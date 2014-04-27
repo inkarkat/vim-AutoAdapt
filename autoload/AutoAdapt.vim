@@ -12,6 +12,8 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.10.008	18-Nov-2013	Adapt to changed ingo#actions#EvaluateOrFunc()
+"				interface in ingo-library 1.015.
 "   1.10.007	07-Aug-2013	CHG: Return both status and list of
 "				applicable rule names.
 "				ENH: Implement :Adapt command to manually
@@ -91,7 +93,7 @@ function! AutoAdapt#Trigger( filespec, rules )
     for l:rule in a:rules
 	try
 	    if has_key(l:rule, 'patternexpr')
-		let l:rule.pattern = ingo#actions#EvaluateOrFunc(l:rule.patternexpr, [l:rule])
+		let l:rule.pattern = ingo#actions#EvaluateOrFunc(l:rule.patternexpr, l:rule)
 	    endif
 
 	    let l:previousChangedtick = b:changedtick
