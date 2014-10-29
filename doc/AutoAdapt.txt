@@ -22,7 +22,7 @@ individual buffer.
 
 The plugin ships with configuration defaults which handle the most common
 copyright notices, e.g.:
-    Copyright: (C) 2011-2013 Ingo Karkat ~
+    Copyright: (C) 2011-2014 Ingo Karkat ~
 and modification timestamps such as
     Last Change: Mon 08 Jul 2013 09:36:03 CET ~
     Modified: 2013 Jul 08 ~
@@ -202,7 +202,7 @@ IDEAS							     *AutoAdapt-ideas*
 ==============================================================================
 HISTORY							   *AutoAdapt-history*
 
-1.10	RELEASEME
+1.10	15-Jan-2014
 - ENH: Allow to disable / limit automatic adaptation via
   g:AutoAdapt_FilePattern configuration.
 - ENH: Add :AutoAdapt command to opt-in to automatic adaptation when it's
@@ -222,7 +222,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2013 Ingo Karkat
+Copyright: (C) 2013-2014 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
