@@ -13,6 +13,13 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.10.007	07-Aug-2013	CHG: Return both status and list of
+"				applicable rule names.
+"				ENH: Implement :Adapt command to manually
+"				trigger the adaptation (or override a configured
+"				predicate disallowing it).
+"				ENH: Allow overriding predicate with
+"				:AutoAdapt! command.
 "   1.10.006	06-Aug-2013	Pass filespec to AutoAdapt#Trigger().
 "   1.10.005	05-Aug-2013	ENH: Allow to disable / limit automatic
 "				adaptation via g:AutoAdapt_FilePattern
@@ -109,7 +116,11 @@ function! s:NoAutoAdapt()
 endfunction
 command! -bar NoAutoAdapt call <SID>NoAutoAdapt()
 
-function! s:AutoAdapt()
+function! s:AutoAdapt( isOverride )
+    if a:isOverride && ! empty(ingo#plugin#setting#GetBufferLocal('AutoAdapt_Predicate', ''))
+	let b:AutoAdapt_Predicate = function('AutoAdapt#DummyPredicate')
+    endif
+
     if exists('b:AutoAdapt')
 	if ! b:AutoAdapt
 	    unlet b:AutoAdapt
@@ -133,12 +144,14 @@ function! s:AutoAdapt()
 	    unlet b:AutoAdapt
 	else
 	    augroup AutoAdapt
-		autocmd! BufWritePre,FileWritePre <buffer> if ! AutoAdapt#Trigger(expand('<afile>'), ingo#plugin#setting#GetBufferLocal('AutoAdapt_Rules')) | call ingo#msg#ErrorMsg(ingo#err#Get()) | endif
+		autocmd! BufWritePre,FileWritePre <buffer> if ! AutoAdapt#Trigger(expand('<afile>'), ingo#plugin#setting#GetBufferLocal('AutoAdapt_Rules'))[0] | call ingo#msg#ErrorMsg(ingo#err#Get()) | endif
 	    augroup END
 	endif
     endif
 endfunction
-command! -bar AutoAdapt call <SID>AutoAdapt()
+command! -bar -bang AutoAdapt call <SID>AutoAdapt(<bang>0)
+
+command! -bar -bang Adapt if ! AutoAdapt#Adapt(<bang>0) | echoerr ingo#err#Get() | endif
 
 
 "- autocmds --------------------------------------------------------------------
@@ -146,7 +159,7 @@ command! -bar AutoAdapt call <SID>AutoAdapt()
 if ! empty(g:AutoAdapt_FilePattern)
     augroup AutoAdapt
 	autocmd!
-	execute 'autocmd BufWritePre,FileWritePre' g:AutoAdapt_FilePattern 'if ! AutoAdapt#Trigger(expand("<afile>"), ingo#plugin#setting#GetBufferLocal("AutoAdapt_Rules")) | call ingo#msg#ErrorMsg(ingo#err#Get()) | endif'
+	execute 'autocmd BufWritePre,FileWritePre' g:AutoAdapt_FilePattern 'if ! AutoAdapt#Trigger(expand("<afile>"), ingo#plugin#setting#GetBufferLocal("AutoAdapt_Rules"))[0] | call ingo#msg#ErrorMsg(ingo#err#Get()) | endif'
 	execute 'autocmd User' g:AutoAdapt_FilePattern 'let b:AutoAdapt = -1'
     augroup END
 endif
