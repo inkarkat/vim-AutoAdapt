@@ -7,12 +7,14 @@
 "   - ingo/msg.vim autoload script
 "   - ingo/plugin.vim autoload script
 "
-" Copyright: (C) 2013 Ingo Karkat
+" Copyright: (C) 2013-2014 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.11.008	30-Oct-2014	Prevent "No matching autocommands" messages in
+"				Vim 7.0/1/2.
 "   1.10.007	07-Aug-2013	CHG: Return both status and list of
 "				applicable rule names.
 "				ENH: Implement :Adapt command to manually
@@ -135,8 +137,13 @@ function! s:AutoAdapt( isOverride )
 	if exists('#AutoAdapt#User')
 	    if v:version == 703 && has('patch438') || v:version > 703
 		doautocmd <nomodeline> AutoAdapt User
-	    else
+	    elseif v:version == 702 && has('patch259') || v:version > 702
 		doautocmd              AutoAdapt User
+	    else
+		" In old Vim versions, the exists() check doesn't work properly
+		" for an empty autocmd group, causing "No matching autocommands"
+		" messages unless we silence it.
+		silent! doautocmd      AutoAdapt User
 	    endif
 	endif
 	if exists('b:AutoAdapt')
