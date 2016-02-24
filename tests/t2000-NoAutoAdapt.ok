@@ -1,0 +1,23 @@
+" AutoAdapt/text.txt: Test file for the AutoAdapt plugin.
+" Copyright: (C) 2011
+"
+" DEPENDENCIES:
+"   - foo/foo/foo.vim
+" Created:	2004 Feb 06
+" Last Change:	2009 Mar 25
+"
+" REVISION	DATE		REMARKS
+"	001	02-Jul-2013	file creation by FOO
+
+echomsg "Copyright 1999 Ingo Karkat"
+echo "foobar"
+
+
+function! Foo()
+    echo "foo"
+endfunction
+
+
+"   The VIM LICENSE applies to this script; see ':help copyright'.
+" Copyright: (C) 2000-2011 Ingo Karkat
+
