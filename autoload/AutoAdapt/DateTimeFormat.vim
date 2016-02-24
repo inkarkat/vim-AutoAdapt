@@ -8,7 +8,7 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
-"	001	02-Jul-2013	file creation
+"   1.00.001	02-Jul-2013	file creation
 
 " Condense "Pacific Daylight Time" into "PDT".
 let s:shortTimezone = substitute(strftime('%Z'), '\<\(\w\)\%(\w*\)\>\%(\W\+\|$\)', '\1', 'g')
