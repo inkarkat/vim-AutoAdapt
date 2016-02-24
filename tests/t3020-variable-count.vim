@@ -5,9 +5,9 @@ source helpers/foorules.vim
 
 call vimtest#StartTap()
 call vimtap#Plan(3)
-call vimtap#Is(exists('b:AutoAdapt'), 0, 'variable does not exist')
+call vimtap#Ok(! exists('b:AutoAdapt'), 'variable does not exist')
 call vimtest#SaveOut()
-call vimtap#Is(exists('b:AutoAdapt'), 1, 'variable exists after adapting')
+call vimtap#Ok(exists('b:AutoAdapt'), 'variable exists after adapting')
 call vimtap#Is(b:AutoAdapt, 3, 'variable counts 3 applied rules after adapting')
 
 call vimtest#Quit()
