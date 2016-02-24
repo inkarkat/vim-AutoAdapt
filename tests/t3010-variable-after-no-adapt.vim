@@ -6,8 +6,8 @@ source helpers/modelinerules.vim
 
 call vimtest#StartTap()
 call vimtap#Plan(2)
-call vimtap#Is(exists('b:AutoAdapt'), 0, 'variable does not exist')
+call vimtap#Ok(! exists('b:AutoAdapt'), 'variable does not exist')
 call vimtest#SaveOut()
-call vimtap#Is(exists('b:AutoAdapt'), 0, 'variable does not exist after write')
+call vimtap#Ok(! exists('b:AutoAdapt'), 'variable does not exist after write')
 
 call vimtest#Quit()
