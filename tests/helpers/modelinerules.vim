@@ -1,6 +1,7 @@
 let g:AutoAdapt_Rules = [
 \   {
 \       'pattern': '\c\<Copy\zsright\>',
-\       'replacement': 'left'
+\       'replacement': 'left',
+\       'range': 'modelines'
 \   }
 \]
