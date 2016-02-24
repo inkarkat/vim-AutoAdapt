@@ -8,6 +8,7 @@ let g:AutoAdapt_Rules = [
 \   }
 \]
 0read text.txt
+%substitute/02-Jul-\zs2013/\=strftime('%Y')/
 call vimtest#StartTap()
 call vimtap#Plan(2)
 
