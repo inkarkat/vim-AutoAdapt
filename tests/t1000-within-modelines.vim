@@ -1,6 +1,6 @@
 " Test rule adapting within 2 modelines.
 
-source helpers/testrules.vim
+source helpers/modelinerules.vim
 set modeline modelines=2
 0read text.txt
 
