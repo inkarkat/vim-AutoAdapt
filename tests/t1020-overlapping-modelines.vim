@@ -1,6 +1,6 @@
 " Test rule adapting within 99 modelines.
 
-source helpers/testrules.vim
+source helpers/modelinerules.vim
 set modeline modelines=99
 0read text.txt
 
