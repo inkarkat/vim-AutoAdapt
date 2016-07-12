@@ -6,7 +6,7 @@
 "   - ingo/err.vim autoload script
 "   - ingo/plugin/setting.vim autoload script
 "
-" Copyright: (C) 2013 Ingo Karkat
+" Copyright: (C) 2013-2014 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -112,7 +112,7 @@ function! AutoAdapt#Trigger( filespec, rules )
 	    if b:changedtick > l:previousChangedtick
 		call add(l:applicableRules, get(l:rule, 'name', l:rule.pattern))
 	    endif
-	catch /^Vim\%((\a\+)\)\=:E/
+	catch /^Vim\%((\a\+)\)\=:/
 	    call ingo#collections#unique#AddNew(l:errors, ingo#msg#MsgFromVimException())
 	catch /^AutoAdaptSkip/
 	    " The Funcref signals to have this rule skipped.
