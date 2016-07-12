@@ -202,6 +202,10 @@ IDEAS							     *AutoAdapt-ideas*
 ==============================================================================
 HISTORY							   *AutoAdapt-history*
 
+1.11	RELEASEME
+- Old version compatibility: Prevent "No matching autocommands" messages in
+  Vim 7.0/1/2.
+
 1.10	15-Jan-2014
 - ENH: Allow to disable / limit automatic adaptation via
   g:AutoAdapt_FilePattern configuration.
