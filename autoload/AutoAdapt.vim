@@ -6,12 +6,14 @@
 "   - ingo/err.vim autoload script
 "   - ingo/plugin/setting.vim autoload script
 "
-" Copyright: (C) 2013-2014 Ingo Karkat
+" Copyright: (C) 2013-2016 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.11.009	13-Jul-2016	Factor out
+"				ingo#range#borders#StartAndEndRange().
 "   1.10.008	18-Nov-2013	Adapt to changed ingo#actions#EvaluateOrFunc()
 "				interface in ingo-library 1.015.
 "   1.10.007	07-Aug-2013	CHG: Return both status and list of
@@ -39,28 +41,14 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! s:StartAndEndRange( startOffset, endOffset )
-    let l:ranges = []
-    let l:lastStartLnum = min([line('$'), a:startOffset])
-    if a:startOffset > 0
-	call add(l:ranges, '1,' . l:lastStartLnum)
-    endif
-
-    let l:firstEndLnum = max([1, line('$') - a:endOffset + 1])
-    let l:firstEndLnum = max([l:lastStartLnum + 1, l:firstEndLnum])
-    if l:firstEndLnum <= line('$')
-	call add(l:ranges, l:firstEndLnum . ',$')
-    endif
-    return l:ranges
-endfunction
 function! s:GetRanges( rule )
     if empty(get(a:rule, 'range', ''))
-	return s:StartAndEndRange(
+	return ingo#range#borders#StartAndEndRange(
 	\   ingo#plugin#setting#GetBufferLocal('AutoAdapt_FirstLines'),
 	\   ingo#plugin#setting#GetBufferLocal('AutoAdapt_LastLines')
 	\)
     elseif a:rule.range ==# 'modelines'
-	return s:StartAndEndRange(&modelines, &modelines)
+	return ingo#range#borders#StartAndEndRange(&modelines, &modelines)
     else
 	return [a:rule.range]
     endif
