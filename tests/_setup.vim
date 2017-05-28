@@ -4,3 +4,7 @@ if g:runVimTest !~# 'conf-'
     endif
     runtime plugin/AutoAdapt.vim
 endif
+
+function! OffPredicate( filespec )
+    return 0
+endfunction
