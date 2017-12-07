@@ -7,7 +7,7 @@
 "   - ingo/msg.vim autoload script
 "   - ingo/plugin.vim autoload script
 "
-" Copyright: (C) 2013-2014 Ingo Karkat
+" Copyright: (C) 2013-2015 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -142,7 +142,8 @@ function! s:AutoAdapt( isOverride )
 	    else
 		" In old Vim versions, the exists() check doesn't work properly
 		" for an empty autocmd group, causing "No matching autocommands"
-		" messages unless we silence it.
+		" messages unless we silence it. Because of the {group}, a
+		" simple :silent doesn't suffice.
 		silent! doautocmd      AutoAdapt User
 	    endif
 	endif
