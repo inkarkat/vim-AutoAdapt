@@ -4,15 +4,17 @@
 "   - AutoAdapt.vim autoload script
 "   - AutoAdapt/DateTimeFormat.vim autoload script
 "   - ingo/err.vim autoload script
+"   - ingo/event.vim autoload script
 "   - ingo/msg.vim autoload script
-"   - ingo/plugin.vim autoload script
+"   - ingo/plugin/setting.vim autoload script
 "
-" Copyright: (C) 2013-2015 Ingo Karkat
+" Copyright: (C) 2013-2017 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.11.009	08-Dec-2017	Replace :doautocmd with ingo#event#Trigger().
 "   1.11.008	30-Oct-2014	Prevent "No matching autocommands" messages in
 "				Vim 7.0/1/2.
 "   1.10.007	07-Aug-2013	CHG: Return both status and list of
@@ -135,10 +137,8 @@ function! s:AutoAdapt( isOverride )
 	" g:AutoAdapt_FilePattern applies, and only define the buffer-local
 	" autocmd if it doesn't.
 	if exists('#AutoAdapt#User')
-	    if v:version == 703 && has('patch438') || v:version > 703
-		doautocmd <nomodeline> AutoAdapt User
-	    elseif v:version == 702 && has('patch259') || v:version > 702
-		doautocmd              AutoAdapt User
+	    if v:version == 702 && has('patch259') || v:version > 702
+		call ingo#event#Trigger('AutoAdapt User')
 	    else
 		" In old Vim versions, the exists() check doesn't work properly
 		" for an empty autocmd group, causing "No matching autocommands"
