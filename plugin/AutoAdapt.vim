@@ -8,12 +8,14 @@
 "   - ingo/msg.vim autoload script
 "   - ingo/plugin/setting.vim autoload script
 "
-" Copyright: (C) 2013-2017 Ingo Karkat
+" Copyright: (C) 2013-2019 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.11.010	06-Jan-2019	Expose default s:lastChangePattern as
+"                               g:AutoAdapt_LastChangePattern.
 "   1.11.009	08-Dec-2017	Replace :doautocmd with ingo#event#Trigger().
 "   1.11.008	30-Oct-2014	Prevent "No matching autocommands" messages in
 "				Vim 7.0/1/2.
@@ -55,8 +57,11 @@ if ! exists('g:AutoAdapt_FilePattern')
     let g:AutoAdapt_FilePattern = '*'
 endif
 
-let s:lastChangePattern = '\v\C%(<%(Last%(Changed?| [cC]hanged?| modified)|Modified)\s*:\s+)\zs'
 if ! exists('g:AutoAdapt_Rules')
+    if ! exists('g:AutoAdapt_LastChangePattern')
+	let g:AutoAdapt_LastChangePattern = '\v\C%(<%(Last%(Changed?| [cC]hanged?| modified)|Modified)\s*:\s+)\zs'
+    endif
+
     let g:AutoAdapt_Rules = [
     \   {
     \       'name': 'Copyright notice',
@@ -65,37 +70,37 @@ if ! exists('g:AutoAdapt_Rules')
     \   },
     \   {
     \       'name': 'Last Change full timestamp 12h',
-    \       'pattern': s:lastChangePattern . '\a{3}(,?) \d{1,2} \a{3} \d{4} \d{2}:\d{2}:\d{2} [AP]M \u+',
+    \       'pattern': g:AutoAdapt_LastChangePattern . '\a{3}(,?) \d{1,2} \a{3} \d{4} \d{2}:\d{2}:\d{2} [AP]M \u+',
     \       'replacement': '\=strftime("%a" . submatch(1) . " %d %b %Y %I:%M:%S %p ") . ' . string(AutoAdapt#DateTimeFormat#ShortTimezone())
     \   },
     \   {
     \       'name': 'Last Change full timestamp 24h day-month-year time',
-    \       'pattern': s:lastChangePattern . '\a{3}(,?) \d{1,2} \a{3} \d{4} \d{2}:\d{2}:\d{2} %([AP]M)@!\u+',
+    \       'pattern': g:AutoAdapt_LastChangePattern . '\a{3}(,?) \d{1,2} \a{3} \d{4} \d{2}:\d{2}:\d{2} %([AP]M)@!\u+',
     \       'replacement': '\=strftime("%a" . submatch(1) . " %d %b %Y %H:%M:%S ") . ' . string(AutoAdapt#DateTimeFormat#ShortTimezone())
     \   },
     \   {
     \       'name': 'Last Change full timestamp 24h month-day time year',
-    \       'pattern': s:lastChangePattern . '\a{3}(,?) \a{3} \d{1,2} \d{2}:\d{2}:\d{2} \u+ \d{4}',
+    \       'pattern': g:AutoAdapt_LastChangePattern . '\a{3}(,?) \a{3} \d{1,2} \d{2}:\d{2}:\d{2} \u+ \d{4}',
     \       'replacement': '\=strftime("%a" . submatch(1) . " %b %d %H:%M:%S ") . ' . string(AutoAdapt#DateTimeFormat#ShortTimezone()) . '. " " . strftime("%Y")'
     \   },
     \   {
     \       'name': 'Last Change date year-month-day',
-    \       'patternexpr': string(s:lastChangePattern) . '. ''%('' . strftime("%Y[- ]%%(%b|%B)[- ]%d") . '')@!\d{4}([- ])(\a{2,16})\1\d{1,2}''',
+    \       'patternexpr': string(g:AutoAdapt_LastChangePattern) . '. ''%('' . strftime("%Y[- ]%%(%b|%B)[- ]%d") . '')@!\d{4}([- ])(\a{2,16})\1\d{1,2}''',
     \       'replacement': '\=tr(strftime("%Y " . AutoAdapt#DateTimeFormat#MonthFormat(submatch(2)) . " %d"), " ", submatch(1))'
     \   },
     \   {
     \       'name': 'Last Change date year-mm-day',
-    \       'patternexpr': string(s:lastChangePattern) . '. ''%('' . strftime("%Y[- /]%m[- /]%d") . '')@!\d{4}([- /])(0\d|1[012])\1\d{1,2}''',
+    \       'patternexpr': string(g:AutoAdapt_LastChangePattern) . '. ''%('' . strftime("%Y[- /]%m[- /]%d") . '')@!\d{4}([- /])(0\d|1[012])\1\d{1,2}''',
     \       'replacement': '\=tr(strftime("%Y %m %d"), " ", submatch(1))'
     \   },
     \   {
     \       'name': 'Last Change date day-month-year',
-    \       'patternexpr': string(s:lastChangePattern) . '. ''%('' . strftime("%d[- ]%%(%b|%B)[- ]%Y") . '')@!\d{1,2}([- ])(\a{2,16})\1\d{4}''',
+    \       'patternexpr': string(g:AutoAdapt_LastChangePattern) . '. ''%('' . strftime("%d[- ]%%(%b|%B)[- ]%Y") . '')@!\d{1,2}([- ])(\a{2,16})\1\d{4}''',
     \       'replacement': '\=tr(strftime("%d " . AutoAdapt#DateTimeFormat#MonthFormat(submatch(2)) . " %Y"), " ", submatch(1))'
     \   },
     \   {
     \       'name': 'Last Change date month day, year',
-    \       'patternexpr': string(s:lastChangePattern) . '. ''%('' . strftime("%%(%b|%B) %d, %Y") . '')@!(\a{2,16}) \d{1,2}, \d{4}''',
+    \       'patternexpr': string(g:AutoAdapt_LastChangePattern) . '. ''%('' . strftime("%%(%b|%B) %d, %Y") . '')@!(\a{2,16}) \d{1,2}, \d{4}''',
     \       'replacement': '\=strftime(AutoAdapt#DateTimeFormat#MonthFormat(submatch(1)) . " %d, %Y")'
     \   },
     \]
