@@ -22,7 +22,7 @@ individual buffer.
 
 The plugin ships with configuration defaults which handle the most common
 copyright notices, e.g.:
-    Copyright: (C) 2011-2016 Ingo Karkat ~
+    Copyright: (C) 2011-2019 Ingo Karkat ~
 and modification timestamps such as
     Last Change: Mon 08 Jul 2013 09:36:03 CET ~
     Modified: 2013 Jul 08 ~
@@ -203,6 +203,10 @@ IDEAS							     *AutoAdapt-ideas*
 HISTORY							   *AutoAdapt-history*
 
 1.11	RELEASEME
+- Expose default s:lastChangePattern as g:AutoAdapt_LastChangePattern. Useful
+  to adapt only this part when keeping the default rules.
+- Tweak g:AutoAdapt_LastChangePattern to also capture /[lL]ast updated\?/ and
+  /Updated/, and make the following : optional.
 - Old version compatibility: Prevent "No matching autocommands" messages in
   Vim 7.0/1/2.
   *** You need to update to ingo-library (vimscript #4433) version 1.025! ***
@@ -227,7 +231,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2013-2016 Ingo Karkat
+Copyright: (C) 2013-2019 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
