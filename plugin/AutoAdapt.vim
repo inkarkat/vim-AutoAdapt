@@ -15,10 +15,10 @@
 "
 " REVISION	DATE		REMARKS
 "   1.11.010	06-Jan-2019	Expose default s:lastChangePattern as
-"                               g:AutoAdapt_LastChangePattern.
-"                               Tweak g:AutoAdapt_LastChangePattern to also
-"                               capture /[lL]ast updated\?/ and /Updated/, and
-"                               make the following : optional.
+"				g:AutoAdapt_LastChangePattern.
+"				Tweak g:AutoAdapt_LastChangePattern to also
+"				capture /[lL]ast updated\?/ and /Updated/, and
+"				make the following : optional.
 "   1.11.009	08-Dec-2017	Replace :doautocmd with ingo#event#Trigger().
 "   1.11.008	30-Oct-2014	Prevent "No matching autocommands" messages in
 "				Vim 7.0/1/2.
