@@ -203,7 +203,7 @@ https://github.com/inkarkat/vim-AutoAdapt/issues or email (address below).
 HISTORY
 ------------------------------------------------------------------------------
 
-##### 1.11    RELEASEME
+##### 1.11    23-Mar-2019
 - Expose default s:lastChangePattern as g:AutoAdapt\_LastChangePattern. Useful
   to adapt only this part when keeping the default rules.
 - Tweak g:AutoAdapt\_LastChangePattern to also capture /[lL]ast updated\\?/ and
