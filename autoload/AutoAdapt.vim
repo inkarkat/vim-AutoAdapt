@@ -1,43 +1,12 @@
 " AutoAdapt.vim: Automatically adapt timestamps, copyright notices, etc.
 "
 " DEPENDENCIES:
-"   - ingo/actions.vim autoload script
-"   - ingo/collection/unique.vim autoload script
-"   - ingo/err.vim autoload script
-"   - ingo/plugin/setting.vim autoload script
+"   - ingo-library.vim plugin
 "
-" Copyright: (C) 2013-2016 Ingo Karkat
+" Copyright: (C) 2013-2019 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
-"
-" REVISION	DATE		REMARKS
-"   1.11.009	13-Jul-2016	Factor out
-"				ingo#range#borders#StartAndEndRange().
-"   1.10.008	18-Nov-2013	Adapt to changed ingo#actions#EvaluateOrFunc()
-"				interface in ingo-library 1.015.
-"   1.10.007	07-Aug-2013	CHG: Return both status and list of
-"				applicable rule names.
-"				ENH: Implement :Adapt command to manually
-"				trigger the adaptation (or override a configured
-"				predicate disallowing it).
-"				FIX: Properly clear b:AutoAdapt indicator when
-"				no rules apply any more, or the predicate
-"				disallows adaptation.
-"   1.10.006	06-Aug-2013	Pass filespec to AutoAdapt#Trigger().
-"				ENH: Allow to skip adaptation with
-"				g:AutoAdapt_Predicate.
-"   1.01.005	09-Jul-2013	Enable patternexpr Funcref to skip the rule
-"				application by :throw AutoAdaptSkip.
-"   1.00.004	08-Jul-2013	Don't clobber the search history.
-"	003	03-Jul-2013	Add rule.patternexpr configuration attribute.
-"				Allow disabling via b:AutoAdapt flag.
-"				Switch default range to the config variables.
-"				Avoid that the same substitution error is added
-"				multiple times.
-"	002	02-Jul-2013	Add rule.range configuration and default to
-"				'modelines' line offset from start and end.
-"	001	01-Jul-2013	file creation
 let s:save_cpo = &cpo
 set cpo&vim
 

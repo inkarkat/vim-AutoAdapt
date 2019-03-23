@@ -1,50 +1,12 @@
 " AutoAdapt.vim: Automatically adapt timestamps, copyright notices, etc.
 "
 " DEPENDENCIES:
-"   - AutoAdapt.vim autoload script
-"   - AutoAdapt/DateTimeFormat.vim autoload script
-"   - ingo/err.vim autoload script
-"   - ingo/event.vim autoload script
-"   - ingo/msg.vim autoload script
-"   - ingo/plugin/setting.vim autoload script
+"   - ingo-library.vim plugin
 "
 " Copyright: (C) 2013-2019 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
-"
-" REVISION	DATE		REMARKS
-"   1.11.010	06-Jan-2019	Expose default s:lastChangePattern as
-"				g:AutoAdapt_LastChangePattern.
-"				Tweak g:AutoAdapt_LastChangePattern to also
-"				capture /[lL]ast updated\?/ and /Updated/, and
-"				make the following : optional.
-"   1.11.009	08-Dec-2017	Replace :doautocmd with ingo#event#Trigger().
-"   1.11.008	30-Oct-2014	Prevent "No matching autocommands" messages in
-"				Vim 7.0/1/2.
-"   1.10.007	07-Aug-2013	CHG: Return both status and list of
-"				applicable rule names.
-"				ENH: Implement :Adapt command to manually
-"				trigger the adaptation (or override a configured
-"				predicate disallowing it).
-"				ENH: Allow overriding predicate with
-"				:AutoAdapt! command.
-"   1.10.006	06-Aug-2013	Pass filespec to AutoAdapt#Trigger().
-"   1.10.005	05-Aug-2013	ENH: Allow to disable / limit automatic
-"				adaptation via g:AutoAdapt_FilePattern
-"				configuration.
-"				ENH: Add :AutoAdapt command to opt-in to
-"				automatic adaptation when it's either not
-"				enabled for the current buffer, or was turned
-"				off via :NoAutoAdapt.
-"   1.00.004	04-Jul-2013	Add rule.name descriptions.
-"	003	03-Jul-2013	Avoid modifying Last Changed lines with the
-"				current date. Use new "patternexpr" attribute
-"				to avoid a match (/\@!/) with the current date.
-"				Allow disabling via :NoAutoAdapt command.
-"	002	02-Jul-2013	Extend default rules for common formats seen in
-"				$VIMRUNTIME/syntax/*.vim.
-"	001	01-Jul-2013	file creation
 
 " Avoid installing twice or when in unsupported Vim version.
 if exists('g:loaded_AutoAdapt') || (v:version < 700)

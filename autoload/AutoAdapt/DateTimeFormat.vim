@@ -2,13 +2,10 @@
 "
 " DEPENDENCIES:
 "
-" Copyright: (C) 2013 Ingo Karkat
+" Copyright: (C) 2013-2019 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
-"
-" REVISION	DATE		REMARKS
-"   1.00.001	02-Jul-2013	file creation
 
 " Condense "Pacific Daylight Time" into "PDT".
 let s:shortTimezone = substitute(strftime('%Z'), '\<\(\w\)\%(\w*\)\>\%(\W\+\|$\)', '\1', 'g')
