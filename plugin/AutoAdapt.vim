@@ -3,7 +3,7 @@
 " DEPENDENCIES:
 "   - ingo-library.vim plugin
 "
-" Copyright: (C) 2013-2019 Ingo Karkat
+" Copyright: (C) 2013-2020 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -76,6 +76,10 @@ if ! exists('g:AutoAdapt_FirstLines')
 endif
 if ! exists('g:AutoAdapt_LastLines')
     let g:AutoAdapt_LastLines = 10
+endif
+
+if ! exists('g:AutoAdapt_IsSkipOnRestore')
+    let g:AutoAdapt_IsSkipOnRestore = 1
 endif
 
 

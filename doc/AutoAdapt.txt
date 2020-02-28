@@ -22,7 +22,7 @@ individual buffer.
 
 The plugin ships with configuration defaults which handle the most common
 copyright notices, e.g.:
-    Copyright: (C) 2011-2019 Ingo Karkat ~
+    Copyright: (C) 2011-2020 Ingo Karkat ~
 and modification timestamps such as
     Last Change: Mon 08 Jul 2013 09:36:03 CET ~
     Modified: 2013 Jul 08 ~
@@ -127,6 +127,14 @@ value is not used by default.)
 You can override both values for particular buffers / filetypes with the
 buffer-scoped variable.
 
+		   *b:AutoAdapt_IsSkipOnRestore* *g:AutoAdapt_IsSkipOnRestore*
+No adaptation happens if |undo| was used to restore previous buffer contents,
+and these are now written back. Without that, you'd have to manually
+|:NoAutoAdapt| in order to write back the restored original file contents
+(without modifying the timestamp). You can turn this off (globally or for
+individual buffers) via: >
+    let g:AutoAdapt_IsSkipOnRestore = 0
+<
 
 		     *AutoAdapt-rules* *b:AutoAdapt_Rules* *g:AutoAdapt_Rules*
 The plugin uses a list of rules to adapt the buffer contents on each save. You
@@ -213,6 +221,10 @@ https://github.com/inkarkat/vim-AutoAdapt/issues or email (address below).
 ==============================================================================
 HISTORY							   *AutoAdapt-history*
 
+1.12	RELEASEME
+- ENH: Add g:AutoAdapt_IsSkipOnRestore and skip adaptatin if undo was used to
+  restore previous buffer contents by default.
+
 1.11	23-Mar-2019
 - Expose default s:lastChangePattern as g:AutoAdapt_LastChangePattern. Useful
   to adapt only this part when keeping the default rules.
@@ -242,7 +254,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2013-2019 Ingo Karkat
+Copyright: (C) 2013-2020 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
