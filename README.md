@@ -212,7 +212,7 @@ HISTORY
 ------------------------------------------------------------------------------
 
 ##### 1.12    RELEASEME
-- ENH: Add g:AutoAdapt\_IsSkipOnRestore and skip adaptatin if undo was used to
+- ENH: Add g:AutoAdapt\_IsSkipOnRestore and skip adapting if undo was used to
   restore previous buffer contents by default.
 
 ##### 1.11    23-Mar-2019
