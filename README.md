@@ -13,7 +13,7 @@ individual buffer.
 The plugin ships with configuration defaults which handle the most common
 copyright notices, e.g.:
 ```
-    Copyright: (C) 2011-2020 Ingo Karkat
+    Copyright: (C) 2011-2024 Ingo Karkat
 ```
 and modification timestamps such as
 ```
@@ -211,7 +211,7 @@ https://github.com/inkarkat/vim-AutoAdapt/issues or email (address below).
 HISTORY
 ------------------------------------------------------------------------------
 
-##### 1.12    RELEASEME
+##### 1.12    21-Nov-2024
 - ENH: Add g:AutoAdapt\_IsSkipOnRestore and skip adapting if undo was used to
   restore previous buffer contents by default.
 
@@ -247,7 +247,7 @@ __You need to
 - Started development.
 
 ------------------------------------------------------------------------------
-Copyright: (C) 2013-2020 Ingo Karkat -
+Copyright: (C) 2013-2024 Ingo Karkat -
 The [VIM LICENSE](http://vimdoc.sourceforge.net/htmldoc/uganda.html#license) applies to this plugin.
 
 Maintainer:     Ingo Karkat &lt;ingo@karkat.de&gt;
