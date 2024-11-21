@@ -3,7 +3,7 @@
 " DEPENDENCIES:
 "   - ingo-library.vim plugin
 "
-" Copyright: (C) 2013-2019 Ingo Karkat
+" Copyright: (C) 2013-2020 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -25,6 +25,14 @@ endfunction
 function! AutoAdapt#Trigger( filespec, rules )
     if exists('b:AutoAdapt') && ! b:AutoAdapt
 	return [2, []]
+    endif
+
+    if ingo#plugin#setting#GetBufferLocal('AutoAdapt_IsSkipOnRestore')
+	let l:undoTree = undotree()
+	let l:isRestore = (l:undoTree.save_last > l:undoTree.save_cur)
+	if l:isRestore
+	    return [4, []]
+	endif
     endif
 
     unlet! b:AutoAdapt  " We're good to go; first clear any indication of a previous adaptation.
