@@ -3,7 +3,7 @@
 " DEPENDENCIES:
 "   - ingo-library.vim plugin
 "
-" Copyright: (C) 2013-2020 Ingo Karkat
+" Copyright: (C) 2013-2025 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -64,7 +64,8 @@ function! AutoAdapt#Trigger( filespec, rules )
 	    let l:previousChangedtick = b:changedtick
 	    let l:sep = get(l:rule, 'substitutionSeparator', '/')
 	    for l:range in s:GetRanges(l:rule)
-		silent execute printf('keepjumps %ssubstitute%s%s%s%s%sge',
+		silent execute printf('%s keepjumps %ssubstitute%s%s%s%s%sge',
+		\   ingo#compat#commands#keeppatterns(),
 		\   l:range,
 		\   l:sep,
 		\   l:rule.pattern,
@@ -87,7 +88,6 @@ function! AutoAdapt#Trigger( filespec, rules )
     endfor
     if l:didSubstitute
 	call winrestview(l:save_view)
-	call histdel('search', -1)
     endif
 
     if len(l:applicableRules) > 0

@@ -212,6 +212,11 @@ https://github.com/inkarkat/vim-AutoAdapt/issues or email (address below).
 HISTORY
 ------------------------------------------------------------------------------
 
+##### 1.13    RELEASEME
+-
+
+__You need to update to ingo-library ([vimscript #4433](http://www.vim.org/scripts/script.php?script_id=4433)) version 1.035!__
+
 ##### 1.12    21-Nov-2024
 - ENH: Add g:AutoAdapt\_IsSkipOnRestore and skip adapting if undo was used to
   restore previous buffer contents by default.
