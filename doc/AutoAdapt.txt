@@ -22,7 +22,7 @@ individual buffer.
 
 The plugin ships with configuration defaults which handle the most common
 copyright notices, e.g.:
-    Copyright: (C) 2011-2024 Ingo Karkat ~
+    Copyright: (C) 2011-2025 Ingo Karkat ~
 and modification timestamps such as
     Last Change: Mon 08 Jul 2013 09:36:03 CET ~
     Modified: 2013 Jul 08 ~
@@ -145,7 +145,7 @@ rules consist of a |List| of Rule objects: >
     \   {
     \       'name': 'Copyright notice',
     \       'pattern': '\c\<Copyright:\?\d\{4}\>',
-    \       'replacement': strftime('%Y'),
+    \       'replacement': '\=strftime("%Y")',
     \	    'range': 'modelines'
     \   },
     \	{ ... }
@@ -162,8 +162,9 @@ patternexpr		A Funcref (that takes the entire current rule object)
 			to avoid a match of the current date with |/@!|) into
 			the pattern. The Funcref can throw "AutoAdaptSkip" to
 			skip the application of this rule.
-replacement		The replacement; you can use text or
-			|sub-replace-special|.
+replacement		The replacement {string} as used in a |:substitute|
+			command; for dynamic replacements, you need to
+			use |sub-replace-special|.
 range			The (optional) range to which parts of the buffer the
 			rule will be applied. It defaults to the empty string
 			"", which uses the |g:AutoAdapt_FirstLines| and
@@ -254,7 +255,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2013-2024 Ingo Karkat
+Copyright: (C) 2013-2025 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>

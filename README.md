@@ -13,7 +13,7 @@ individual buffer.
 The plugin ships with configuration defaults which handle the most common
 copyright notices, e.g.:
 ```
-    Copyright: (C) 2011-2024 Ingo Karkat
+    Copyright: (C) 2011-2025 Ingo Karkat
 ```
 and modification timestamps such as
 ```
@@ -23,7 +23,7 @@ and modification timestamps such as
 
 ### SOURCE
 
-- [The regular expression for updating copyright notices is derived from this page.](http://vim.wikia.com/wiki/Automatically_Update_Copyright_Notice_in_Files)
+- [The regular expression for updating copyright notices is derived from this page.](http://vim.wikia.com/wiki/Automatically\_Update\_Copyright\_Notice\_in\_Files)
 
 ### RELATED WORKS
 
@@ -144,7 +144,7 @@ rules consist of a List of Rule objects:
     \   {
     \       'name': 'Copyright notice',
     \       'pattern': '\c\<Copyright:\?\d\{4}\>',
-    \       'replacement': strftime('%Y'),
+    \       'replacement': '\=strftime("%Y")',
     \       'range': 'modelines'
     \   },
     \   { ... }
@@ -161,8 +161,9 @@ patternexpr             A Funcref (that takes the entire current rule object)
                         to avoid a match of the current date with /@!) into
                         the pattern. The Funcref can throw "AutoAdaptSkip" to
                         skip the application of this rule.
-replacement             The replacement; you can use text or
-                        sub-replace-special.
+replacement             The replacement {string} as used in a :substitute
+                        command; for dynamic replacements, you need to
+                        use sub-replace-special.
 range                   The (optional) range to which parts of the buffer the
                         rule will be applied. It defaults to the empty string
                         "", which uses the g:AutoAdapt_FirstLines and
@@ -247,7 +248,7 @@ __You need to
 - Started development.
 
 ------------------------------------------------------------------------------
-Copyright: (C) 2013-2024 Ingo Karkat -
+Copyright: (C) 2013-2025 Ingo Karkat -
 The [VIM LICENSE](http://vimdoc.sourceforge.net/htmldoc/uganda.html#license) applies to this plugin.
 
 Maintainer:     Ingo Karkat &lt;ingo@karkat.de&gt;
