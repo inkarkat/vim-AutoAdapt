@@ -213,7 +213,8 @@ HISTORY
 ------------------------------------------------------------------------------
 
 ##### 1.13    RELEASEME
--
+- Consistency: Minor: Also support whitespace between "Copyright" and colon in
+  default rules.
 
 __You need to update to ingo-library ([vimscript #4433](http://www.vim.org/scripts/script.php?script_id=4433)) version 1.035!__
 
